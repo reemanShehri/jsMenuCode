@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+    <title>Menu_Js</title>
+
+    <style>
+
+        
+/* Form container */
+#newDishForm {
+    display: none;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    margin: 20px auto;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+#newDishForm h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Form labels */
+#newDishForm label {
+    margin-bottom: 5px;
+}
+
+/* Form input fields */
+#newDishForm input[type="text"],
+#newDishForm input[type="number"],
+#newDishForm button[type="submit"] {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+/* Adjust form input widths for a horizontal layout */
+#newDishForm input[type="text"],
+#newDishForm input[type="number"] {
+    width: 90%;
+}
+
+/* Form button */
+#newDishForm button[type="submit"] {
+    background-color: #ea8f8f;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: flex-end; /* Align the button to the right */
+}
+
+#newDishForm button[type="submit"]:hover {
+    background-color: #d37373;
+}
+
+
+
+        /* Reset some default styles */
+body, h1, h2, p {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+header {
+    background-color: #ea8f8f;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}
+
+h1 {
+    font-size: 36px;
+}
+
+.main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.dish-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.dish-card img {
+    max-width: 100%;
+    height: auto;
+}
+
+footer {
+    background-color: #fababa;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* Add more styles as needed */
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Menu</h1>
+        <br>
+        
+        <div class="search-container">
+            <input  style="width: 50%; " type="text" id="searchInput" placeholder="Search...">
+            <button  style="border-radius: 20%; background-color: rgb(167, 255, 117);"   id="searchButton" >Search</button>
+            <br>
+            <br>
+        </div>
+        <br>
+        <button id="newDishButton"  style="border-radius: 20%; background-color: rgb(117, 241, 255); width: 10%;">New Dish</button>
+     
+    </header>
+
+    
+    <div id="newDishForm" style="display: none;">
+        <h2>Add a New Dish</h2>
+        <form id="addDishForm">
+            <label for="dishName">Name:</label>
+            <input type="text" id="dishName" required>
+            
+            <label for="dishCategory">Category:</label>
+            <input type="text" id="dishCategory" required>
+
+            <label for="dishImage">Image Link:</label>
+            <input type="text" id="dishImage" required>
+
+            <label for="dishPrice">Price:</label>
+            <input type="number" id="dishPrice" step="0.01" required>
+
+            <label for="dishIngredients">Ingredients:</label>
+            <input type="text" id="dishIngredients" required>
+
+            <button type="submit">Add Dish</button>
+        </form>
+    </div>
+    <main>
+        <div class="menu">
+        </div>
+
+        <br>
+       
+    </main>
+
+
+    <footer>
+    
+    </footer>
+    <script>
+
+// Sample array of dish objects
+let dishes = [
+   {
+    name: "burger",
+    price: 20.99,
+    category: "fast food",
+    image: "br.jpg",
+    ingredients: "meat, cheese, onion, bread"
+ },
+ {
+    name: "pizza",
+    price: 20.99,
+    category: "fast food",
+    image: "p.jpg",
+    ingredients: "meat, cheese, onion, bread"
+ },{
+    name: "salad",
+    price: 20.99,
+    category: "fast food",
+    image: "sa.jpg",
+    ingredients: "meat, cheese, onion, bread"
+ },{
+    name: "drinks",
+    price: 20.99,
+    category: "drink",
+    image: "dr.jpg",
+    ingredients: "meat, cheese, onion, bread"
+ },
+ {
+    name: "pasta",
+    price: 20.99,
+    category: "drink",
+    image: "pa.jpg",
+    ingredients: "meat, cheese, onion, bread"
+ }
+ ,{
+    name: "biscuits",
+    price: 20.99,
+    category: "biscuits",
+    image: "bs.jpg",
+    ingredients: "meat, cheese, onion, bread"
+ }
+ ,{
+    name: "fresh juice",
+    price: 20.99,
+    category: "juice",
+    image: "j.jpg",
+    ingredients: "meat, cheese, onion, bread"
+ }
+ ,{
+    name: "chicken pizza.",
+    price: 20.99,
+    category: "fast food",
+    image: "c.jpg",
+    ingredients: "chicken, cheese, vegetables, bread"
+ },
+ {
+    name: "Cake",
+    price: 20.99,
+    category: "cake",
+    image: "ca.jpg",
+    ingredients: "flour, cream, juice, oil"
+ },
+ {
+    name: "cheesecake",
+    price: 20.99,
+    category: "cake",
+    image: "ch.jpg",
+    ingredients: "flour,cream, blueberry"
+ }
+ 
+   
+];
+// let cardCount=0;
+
+// Function to generate dish cards
+function generateDishCards() {
+    const menuContainer = document.querySelector('.menu');
+   
+
+    // Clear existing dish cards
+    menuContainer.innerHTML= '';
+
+    // Loop through the dishes array and create cards
+    dishes.forEach((dish) => {
+        const card = document.createElement('div');
+        card.classList.add('dish-card');
+        card.innerHTML = `
+            <h2>${dish.name}</h2>
+            <p>Category: ${dish.category}</p>
+            <p>Price: $${dish.price}</p>
+            <img src="${dish.image}" alt="${dish.name}">
+            <p>Ingredients: ${dish.ingredients}</p>
+        `;
+
+        menuContainer.appendChild(card);
+        // cardCount++;
+
+
+        // if (cardCount % 3 === 0) {
+        //     // Add a line break to start a new line
+        //     document.write("new");
+        //     menuContainer.appendChild(document.createElement('br'));
+        // }
+    });
+}
+
+
+redients: "meat, cheese, onion, bread"
+   
+
+
+
+function filterDishesByName() {
+    const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+    const menuContainer = document.querySelector('.menu');
+
+    // Clear existing dish cards
+    menuContainer.innerHTML = '';
+
+    // Loop through the dishes array and create cards for matching dishes
+    dishes.forEach((dish) => {
+        if (dish.name.toLowerCase().includes(searchQuery)) {
+            const card = document.createElement('div');
+            card.classList.add('dish-card');
+            card.innerHTML = `
+                <h2>${dish.name}</h2>
+                <p>Category: ${dish.category}</p>
+                <p>Price: $${dish.price}</p>
+                <img src="${dish.image}" alt="${dish.name}">
+                <p>Ingredients: ${dish.ingredients}</p>
+            `;
+
+            menuContainer.appendChild(card);
+        }
+    });
+}
+
+// Event listener for the search button
+document.getElementById('searchButton').addEventListener('click', filterDishesByName);
+
+// Call the function to generate initial dish cards
+
+generateDishCards();
+
+
+// ...
+
+// Function to show/hide the new dish form
+function toggleNewDishForm() {
+    const newDishForm = document.getElementById('newDishForm');
+    newDishForm.style.display = newDishForm.style.display === 'none' ? 'block' : 'none';
+}
+
+// Event listener for the "New Dish" button
+document.getElementById('newDishButton').addEventListener('click', toggleNewDishForm);
+
+// Event listener for the form submission
+document.getElementById('addDishForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    // Get values from the form
+    const name = document.getElementById('dishName').value;
+    const category = document.getElementById('dishCategory').value;
+    const image = document.getElementById('dishImage').value;
+    const price = parseFloat(document.getElementById('dishPrice').value);
+    const ingredients = document.getElementById('dishIngredients').value;
+
+    // Create a new dish object
+    const newDish = {
+        name,
+        category,
+        image,
+        price,
+        ingredients
+    };
+
+    // Add the new dish to the dishes array
+    dishes.push(newDish);
+
+    // Call the function to regenerate the menu with the new dish
+    generateDishCards();
+
+    // Clear the form fields
+    document.getElementById('addDishForm').reset();
+
+    // Hide the new dish form
+    toggleNewDishForm();
+});
+
+// ...
+
+
+
+    </script>
+</body>
+</html>
